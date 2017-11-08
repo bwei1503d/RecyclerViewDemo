@@ -47,7 +47,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // 创建一个View
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_item, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_item, parent,false);
         return new ImageViewHolder(view);
     }
 
@@ -75,9 +75,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.itemImageview.setLayoutParams(params);
 
-        holder.itemImageview.setImageResource(R.mipmap.ic_launcher);
+//        holder.itemImageview.setImageResource(R.mipmap.ic_launcher);
 
 //        ImageLoader.getInstance().displayImage(list.get(position),holder.itemImageview);
+
+
+        Glide.with(context).load(list.get(position)).into(holder.itemImageview);
 
         holder.textView.setText(position+"");
 

@@ -8,11 +8,18 @@
     tools:context="muhanxi.recycleview.MainActivity">
 
 
-
-    <android.support.v7.widget.RecyclerView
+    <com.liaoinstan.springview.widget.SpringView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerview"/>
+        android:id="@+id/springview"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recyclerview"/>
+
+    </com.liaoinstan.springview.widget.SpringView>
 
 
 </LinearLayout>

@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.liaoinstan.springview.container.DefaultFooter;
+import com.liaoinstan.springview.container.DefaultHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -22,12 +25,15 @@ public class MainActivity extends Activity {
 
     private RecyclerView recyclerView;
     private List<String> list = new ArrayList<>();
+    private SpringView springView;
+    private LinearLayoutManager linearLayoutManager;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
 
@@ -65,20 +71,42 @@ public class MainActivity extends Activity {
 //        recyclerView.setLayoutManager(new GridLayoutManager(this,5));
 
 
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL));
-        RecyclerViewAdapter adapter =  new RecyclerViewAdapter(this,list) ;
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        recyclerView.setAdapter(adapter);
 
-        adapter.setIListener(new RecyclerViewAdapter.Listener() {
+//        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL));
+//        RecyclerViewAdapter adapter =  new RecyclerViewAdapter(this,list) ;
+
+        MultiAdapter adapter =  new MultiAdapter(this,list) ;
+
+        linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter);
+//
+//        adapter.setIListener(new RecyclerViewAdapter.Listener() {
+//            @Override
+//            public void onClick(View view, int position) {
+//                Toast.makeText(MainActivity.this, ""+position, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void longClick(View view, int position) {
+//
+//            }
+//        });
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onClick(View view, int position) {
-                Toast.makeText(MainActivity.this, ""+position, Toast.LENGTH_SHORT).show();
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+
+//                linearLayoutManager.findFirstVisibleItemPosition()
+
+
             }
 
             @Override
-            public void longClick(View view, int position) {
-
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
 
@@ -90,13 +118,38 @@ public class MainActivity extends Activity {
 //        .color(Color.RED).build());
 
 
+        springView = (SpringView) findViewById(R.id.springview);
+
+        springView.setHeader(new DefaultHeader(this));
+        springView.setFooter(new DefaultFooter(this));
+
+
+        springView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                //下啦
+
+                springView.onFinishFreshAndLoad();
+            }
+
+            @Override
+            public void onLoadmore() {
+// 上啦
+                springView.onFinishFreshAndLoad();
+
+            }
+        });
 
 
 
 
 
+//        adapter.notifyDataSetChanged();
 
 
 
     }
+
+
+
 }
